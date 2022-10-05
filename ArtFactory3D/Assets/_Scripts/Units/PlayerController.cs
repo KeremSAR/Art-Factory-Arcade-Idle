@@ -1,4 +1,5 @@
 using System;
+using ArtFactory._Scripts.Managers;
 using UnityEngine;
 
 namespace ArtFactory._Scripts.Units
@@ -8,13 +9,18 @@ namespace ArtFactory._Scripts.Units
         private Vector3 direction;
         private Camera Cam;
         private Animator PlayerAnimator;
+        private PlayerStackManager _playerStackManager;
         [SerializeField] private float PlayerSpeed;
+        
+        
         private static readonly int Run = Animator.StringToHash("Run");
+        private static readonly int Carrying = Animator.StringToHash("Carrying");
 
         private void Start()
         {
             Cam = Camera.main;
             PlayerAnimator = this.GetComponent<Animator>();
+            _playerStackManager = this.GetComponent<PlayerStackManager>();
         }
 
         private void Update()
@@ -22,6 +28,10 @@ namespace ArtFactory._Scripts.Units
             if (Input.GetMouseButton(0))
             {
                 Controller();
+                if (_playerStackManager.balls.Count > 1)
+                {
+                    PlayerAnimator.SetBool(Carrying,true);
+                }
             }
 
             if (Input.GetMouseButtonDown(0))
@@ -32,6 +42,14 @@ namespace ArtFactory._Scripts.Units
             if (Input.GetMouseButtonUp(0))
             {
                 PlayerAnimator.SetBool(Run,false);
+                if (_playerStackManager.balls.Count <=0)
+                {
+                    PlayerAnimator.SetBool(Carrying,false);
+                }
+                else if (_playerStackManager.balls.Count>1)
+                {
+                    PlayerAnimator.SetBool(Carrying,true);
+                }
             }
         }
 

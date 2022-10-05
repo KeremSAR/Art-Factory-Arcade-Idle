@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - BallCube
+  - ClawMachine
   layers:
   - Default
   - TransparentFX
