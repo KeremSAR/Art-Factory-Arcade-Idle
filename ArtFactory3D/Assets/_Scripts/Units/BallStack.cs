@@ -50,7 +50,6 @@ namespace ArtFactory._Scripts.Units
                     PP_index = 0;
                     YAxis += YAxisOffset;
                 }
-                Debug.Log("pp index" +  PP_index);
                 yield return new WaitForSecondsRealtime(Time);
             }
 

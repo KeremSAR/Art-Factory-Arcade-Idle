@@ -66,17 +66,16 @@ namespace ArtFactory._Scripts.Managers
                        
                         if (BallstackObj.PP_index == 0)
                         {
-                            Debug.Log("how mcusadad");
                             BallstackObj.YAxis -= BallstackObj.YAxisOffset;
                             BallstackObj.PP_index = 10;
                         }
+                        
                         BallstackObj.PP_index--;
                         
                         Debug.Log(BallstackObj.PP_index);
                         if (BallstackObj.CountPaints > 1)
                         {
                             BallstackObj.CountPaints--;
-                            
                         }
 
                         
