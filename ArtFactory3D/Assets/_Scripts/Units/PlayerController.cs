@@ -32,24 +32,27 @@ namespace ArtFactory._Scripts.Units
                 {
                     PlayerAnimator.SetBool(Carrying,true);
                 }
+                if (_playerStackManager.balls.Count <=1)
+                {
+                    PlayerAnimator.SetBool(Carrying,false);
+                }
+               
             }
 
             if (Input.GetMouseButtonDown(0))
             {
                 PlayerAnimator.SetBool(Run, true);
+                if (_playerStackManager.balls.Count>1)
+                {
+                    PlayerAnimator.SetBool(Carrying,true);
+                }
+                
             }
 
             if (Input.GetMouseButtonUp(0))
             {
                 PlayerAnimator.SetBool(Run,false);
-                if (_playerStackManager.balls.Count <=0)
-                {
-                    PlayerAnimator.SetBool(Carrying,false);
-                }
-                else if (_playerStackManager.balls.Count>1)
-                {
-                    PlayerAnimator.SetBool(Carrying,true);
-                }
+               
             }
         }
 
