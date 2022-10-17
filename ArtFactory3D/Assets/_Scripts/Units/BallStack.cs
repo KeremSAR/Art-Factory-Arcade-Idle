@@ -14,6 +14,7 @@ namespace ArtFactory._Scripts.Units
         
         public float YAxisOffset;
         public float CountPaints, YAxis;
+        public int PP_index = 0;
         void Start()
         {
             var len = BallPlace.Length;
@@ -28,7 +29,6 @@ namespace ArtFactory._Scripts.Units
         IEnumerator DeliverBall(float Time)
         {
             CountPaints = 0;
-            var PP_index = 0;
 
             while (CountPaints < 100)
             {
@@ -50,7 +50,7 @@ namespace ArtFactory._Scripts.Units
                     PP_index = 0;
                     YAxis += YAxisOffset;
                 }
-
+                Debug.Log("pp index" +  PP_index);
                 yield return new WaitForSecondsRealtime(Time);
             }
 
