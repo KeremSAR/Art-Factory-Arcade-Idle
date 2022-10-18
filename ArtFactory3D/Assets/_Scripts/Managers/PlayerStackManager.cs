@@ -72,7 +72,6 @@ namespace ArtFactory._Scripts.Managers
                         
                         BallstackObj.PP_index--;
                         
-                        Debug.Log(BallstackObj.PP_index);
                         if (BallstackObj.CountPaints > 1)
                         {
                             BallstackObj.CountPaints--;

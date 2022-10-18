@@ -21,7 +21,6 @@ namespace ArtFactory._Scripts.Managers
             for (int i = 0; i < customerPrefabs.Count; i++)
             {
                 CustomerObjectPools.Add(i,ObjectPool.CreateInstance(customerPrefabs[i], NumberofCustomerToSpawn));
-                Debug.Log("sasa");
             }
         }
 

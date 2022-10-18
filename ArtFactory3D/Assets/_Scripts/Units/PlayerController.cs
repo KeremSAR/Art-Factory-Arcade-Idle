@@ -1,6 +1,7 @@
 using System;
 using ArtFactory._Scripts.Managers;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ArtFactory._Scripts.Units
 {
@@ -10,8 +11,11 @@ namespace ArtFactory._Scripts.Units
         private Camera Cam;
         private Animator PlayerAnimator;
         private PlayerStackManager _playerStackManager;
-        [SerializeField] private float PlayerSpeed;
         
+        [SerializeField] private float PlayerSpeed;
+        [SerializeField] private float TurnSpeed;
+        [SerializeField] private FloatingJoystick _floatingJoystick;
+         
         
         private static readonly int Run = Animator.StringToHash("Run");
         private static readonly int Carrying = Animator.StringToHash("Carrying");
@@ -27,7 +31,8 @@ namespace ArtFactory._Scripts.Units
         {
             if (Input.GetMouseButton(0))
             {
-                Controller();
+                JoyisticMovement();
+               // Controller();
                 if (_playerStackManager.balls.Count > 1)
                 {
                     PlayerAnimator.SetBool(Carrying,true);
@@ -56,6 +61,19 @@ namespace ArtFactory._Scripts.Units
             }
         }
 
+        private void JoyisticMovement()
+        {
+            float horizantal = _floatingJoystick.Horizontal;
+            float vertical = _floatingJoystick.Vertical;
+
+            Vector3 addedPos = new Vector3(horizantal * PlayerSpeed * Time.deltaTime, 0,
+                vertical * PlayerSpeed * Time.deltaTime);
+            var transform1 = transform;
+            transform1.position += addedPos;
+            
+            Vector3 direction = Vector3.forward * vertical + Vector3.right * horizantal;
+            transform.rotation = Quaternion.Slerp(transform1.rotation, Quaternion.LookRotation(direction), TurnSpeed * Time.deltaTime);
+        }
         private void Controller()
         {
             Plane plane = new Plane(Vector3.up, transform.position);
