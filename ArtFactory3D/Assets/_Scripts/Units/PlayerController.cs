@@ -11,7 +11,7 @@ namespace ArtFactory._Scripts.Units
         private Camera Cam;
         private Animator PlayerAnimator;
         private PlayerStackManager _playerStackManager;
-        
+
         [SerializeField] private float PlayerSpeed;
         [SerializeField] private float TurnSpeed;
         [SerializeField] private FloatingJoystick _floatingJoystick;
@@ -27,12 +27,19 @@ namespace ArtFactory._Scripts.Units
             _playerStackManager = this.GetComponent<PlayerStackManager>();
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             if (Input.GetMouseButton(0))
             {
                 JoyisticMovement();
-               // Controller();
+            }
+          
+        }
+
+        private void Update()
+        {
+            if (Input.GetMouseButton(0))
+            {
                 if (_playerStackManager.balls.Count > 1)
                 {
                     PlayerAnimator.SetBool(Carrying,true);
@@ -46,7 +53,7 @@ namespace ArtFactory._Scripts.Units
 
             if (Input.GetMouseButtonDown(0))
             {
-                PlayerAnimator.SetBool(Run, true);
+                
                 if (_playerStackManager.balls.Count>1)
                 {
                     PlayerAnimator.SetBool(Carrying,true);
@@ -65,16 +72,26 @@ namespace ArtFactory._Scripts.Units
         {
             float horizantal = _floatingJoystick.Horizontal;
             float vertical = _floatingJoystick.Vertical;
-
+            
             Vector3 addedPos = new Vector3(horizantal * PlayerSpeed * Time.deltaTime, 0,
                 vertical * PlayerSpeed * Time.deltaTime);
             var transform1 = transform;
             transform1.position += addedPos;
-            
-            Vector3 direction = Vector3.forward * vertical + Vector3.right * horizantal;
-            transform.rotation = Quaternion.Slerp(transform1.rotation, Quaternion.LookRotation(direction), TurnSpeed * Time.deltaTime);
+
+            if (horizantal != 0 || vertical != 0)
+            {
+                PlayerAnimator.SetBool(Run, true);
+                Vector3 direction = Vector3.forward * vertical + Vector3.right * horizantal;
+                transform.rotation = Quaternion.Slerp(transform1.rotation, Quaternion.LookRotation(direction), TurnSpeed * Time.deltaTime);
+              //  transform.rotation = Quaternion.LookRotation(direction);
+            }
+            else
+            {
+                PlayerAnimator.SetBool(Run, false);
+            }
+           
         }
-        private void Controller()
+       /* private void Controller()
         {
             Plane plane = new Plane(Vector3.up, transform.position);
             Ray ray = Cam.ScreenPointToRay(Input.mousePosition);
@@ -83,13 +100,14 @@ namespace ArtFactory._Scripts.Units
             {
                 this.direction = ray.GetPoint(distance);
             }
-
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(direction.x,0f, direction.z), PlayerSpeed* Time.deltaTime);
+           
+            //transform.position = Vector3.MoveTowards(transform.position, new Vector3(direction.x,0f, direction.z), PlayerSpeed* Time.deltaTime);
             var offset = direction - transform.position;
             if (offset.magnitude > 1f)
             {
-                transform.LookAt(direction);
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), TurnSpeed * Time.deltaTime);
+                //transform.LookAt(direction);
             }
-        }
+        }*/
     }
 }
